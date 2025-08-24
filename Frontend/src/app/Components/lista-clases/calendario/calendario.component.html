@@ -1,0 +1,93 @@
+<div class="fixed inset-0 bg-opacity-30 backdrop-blur-sm flex justify-center items-center z-50 p-4" (click)="cerrar()">
+  <div
+    class="bg-gradient-to-br from-slate-800 to-cyan-800 rounded-2xl shadow-2xl border border-cyan-500/20 w-full max-w-2xl"
+    (click)="$event.stopPropagation()">
+
+    <!-- Header-->
+    <div class="flex items-center justify-between p-6 border-b border-cyan-500/20">
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+          Registrar horario de clases
+        </h1>
+        <div *ngIf="clase">
+          <h2>Asignar horario para: {{ clase.nombre }}</h2>
+        </div>
+        <p class="text-cyan-200/80 text-sm mt-1">
+          Ingrese el día y la hora de la clase
+        </p>
+      </div>
+      <button (click)="cerrar()"
+        class="p-2 hover:bg-white/10 rounded-full transition-colors duration-200 group flex-shrink-0">
+        <svg class="w-5 h-5 text-gray-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Contenido del formulario -->
+    <form class="p-6 space-y-6" (ngSubmit)="confirmarHorario()">
+      <!-- Sección principal: Fechas -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Fecha inicio -->
+        <div>
+  <label class="block text-cyan-300 font-medium mb-2">Fecha inicio:</label>
+  <input type="date" [(ngModel)]="fechaInicio" name="fechaInicio" required
+    (change)="validarFechas()"
+    class="w-full px-3 py-2 bg-white/10 border border-cyan-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300" />
+</div>
+
+        <!-- Fecha final -->
+        <div>
+          <label class="block text-cyan-300 font-medium mb-2">Fecha final:</label>
+          <input type="date" [(ngModel)]="fechaFinal" name="fechaFinal" required
+            class="w-full px-3 py-2 bg-white/10 border border-cyan-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300" />
+        </div>
+      </div>
+
+      <!-- Sección: Hora y duración -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Hora de inicio -->
+        <div>
+          <label for="horaInicio" class="block text-cyan-300 font-medium mb-2">Hora de inicio:</label>
+          <select id="horaInicio" [(ngModel)]="horaInicio" name="horaInicio" (ngModelChange)="actualizarHoraFin()"
+            required
+            class="w-full px-3 py-2 bg-white/10 border border-cyan-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300 cursor-pointer">
+            <option value="" disabled class="bg-slate-800 text-white">Seleccionar hora</option>
+            <option *ngFor="let h of horas" [value]="h" class="bg-slate-800 text-white">{{ h }}</option>
+          </select>
+        </div>
+        <!-- Duración -->
+        <div>
+          <label for="duracion" class="block text-cyan-300 font-medium mb-2">Duración (minutos):</label>
+          <input type="number" id="duracion" [(ngModel)]="duracionMinutos" name="duracion"
+            (ngModelChange)="actualizarHoraFin()" (input)="validarDuracion($event)" min="45" max="240" required
+            class="w-full px-3 py-2 bg-white/10 border border-cyan-400/30 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 transition-all duration-300" />
+        </div>
+      </div>
+
+      <!-- Resumen del horario -->
+      <div *ngIf="fechaInicio && fechaFinal && horaInicio && duracionMinutos" class="mt-6">
+        <h3 class="text-emerald-300 font-medium mb-3">Horario seleccionado:</h3>
+        <div class="bg-cyan-500/20 text-cyan-200 p-4 rounded-lg border border-cyan-400/20 space-y-1">
+          <p><strong>Desde:</strong> {{ fechaInicio }}</p>
+          <p><strong>Hasta:</strong> {{ fechaFinal }}</p>
+          <p><strong>Inicio:</strong> {{ horaInicio }}</p>
+          <p><strong>Duración:</strong> {{ formatDuracion(duracionMinutos) }}</p>
+          <p><strong>Fin:</strong> {{ horaFinCalculada }}</p>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-4 pt-4">
+        <button type="submit"
+          class="px-4 py-2 bg-gradient-to-r from-cyan-500 to-emerald-500 text-white rounded-md hover:from-cyan-400 hover:to-emerald-400 transition duration-300 font-semibold">
+          Guardar Cambios
+        </button>
+        <button type="button" (click)="cerrar()"
+          class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-500 transition duration-300 font-semibold">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

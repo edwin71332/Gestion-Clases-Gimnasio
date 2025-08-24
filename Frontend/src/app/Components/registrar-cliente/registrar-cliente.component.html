@@ -1,0 +1,98 @@
+<div class="min-h-full p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+  <main class="max-w-4xl mx-auto">
+    <header class="mb-6">
+      <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+        Registrar Nuevo Cliente
+      </h1>
+      <p class="mt-1 text-sm text-cyan-200">
+        Completa el formulario para añadir un nuevo cliente
+      </p>
+    </header>
+
+    <form [formGroup]="formCliente" (ngSubmit)="onRegistrarCliente()"
+      class="bg-[#1e293b] bg-gradient-to-br from-slate-900 to-cyan-900 backdrop-blur-sm rounded-2xl shadow-xl p-8 space-y-6 border border-cyan-500/20">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Nombre -->
+        <div class="space-y-1">
+          <label for="nombre" class="block text-sm font-medium text-cyan-400">Nombre <span
+              class="text-red-400">*</span></label>
+          <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Laura"
+            [class.border-red-500]="formCliente.get('nombre')?.invalid && formCliente.get('nombre')?.touched"
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="formCliente.get('nombre')?.invalid && formCliente.get('nombre')?.touched"
+            class="text-xs text-red-500">El nombre es obligatorio</p>
+        </div>
+
+        <!-- apellido -->
+        <div class="space-y-1">
+          <label for="apellido" class="block text-sm font-medium text-cyan-400">apellido <span
+              class="text-red-400">*</span></label>
+          <input id="apellido" type="text" formControlName="apellido" placeholder="Ej: Pérez Gómez"
+            [class.border-red-500]="formCliente.get('apellido')?.invalid && formCliente.get('apellido')?.touched"
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="formCliente.get('apellido')?.invalid && formCliente.get('apellido')?.touched"
+            class="text-xs text-red-500">El apellido es obligatorio</p>
+        </div>
+      </div>
+
+      <!-- Cédula -->
+      <div class="space-y-1">
+        <label for="cedula" class="block text-sm font-medium text-cyan-400">Cédula <span
+            class="text-red-400">*</span></label>
+        <input id="cedula" type="text" formControlName="cedula" placeholder="Ej: 12345678"
+          [class.border-red-500]="formCliente.get('cedula')?.invalid && formCliente.get('cedula')?.touched"
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="formCliente.get('cedula')?.invalid && formCliente.get('cedula')?.touched"
+          class="text-xs text-red-500">Ingrese una cédula válida</p>
+      </div>
+
+      <!-- Correo -->
+      <div class="space-y-1">
+        <label for="correo" class="block text-sm font-medium text-cyan-400">Correo Electrónico <span
+            class="text-red-400">*</span></label>
+        <input id="correo" type="email" formControlName="correo" placeholder="Ej: cliente@mail.com"
+          [class.border-red-500]="formCliente.get('correo')?.invalid && formCliente.get('correo')?.touched"
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="formCliente.get('correo')?.invalid && formCliente.get('correo')?.touched"
+          class="text-xs text-red-500">Ingrese un correo válido</p>
+      </div>
+      <!-- telefono -->
+      <div class="space-y-1">
+        <label for="telefono" class="block text-sm font-medium text-cyan-400">Teléfono <span
+            class="text-red-400">*</span></label>
+        <input id="telefono" type="tel" formControlName="telefono" placeholder="Ej: 123456789"
+          [class.border-red-500]="formCliente.get('telefono')?.invalid && formCliente.get('telefono')?.touched"
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="formCliente.get('telefono')?.invalid && formCliente.get('telefono')?.touched"
+          class="text-xs text-red-500">Ingrese un teléfono     válido</p>
+      </div>
+
+      <div class="pt-4 border-t border-gray-600 flex items-center text-gray-300 text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        Los campos marcados con <span class="text-red-400">*</span> son
+        obligatorios
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="button" (click)="volverAListaClientes()"
+          class="h-12 px-4 border border-cyan-500/30 hover:bg-cyan-900/40 rounded-xl text-cyan-300 hover:text-white">
+          Volver
+        </button>
+        <button type="button" (click)="limpiarFormulario()"
+          class="h-12 px-4 border border-cyan-500/30 hover:bg-cyan-900/40 rounded-xl text-cyan-300 hover:text-white">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="h-12 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 text-white rounded-xl shadow-lg hover:shadow-cyan-500/30">
+          Registrar Cliente
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

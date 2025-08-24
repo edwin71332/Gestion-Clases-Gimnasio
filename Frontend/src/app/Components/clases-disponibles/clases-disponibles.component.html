@@ -1,0 +1,208 @@
+<div class="min-h-screen p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+    <main class="max-w-6xl mx-auto">
+        <!-- Encabezado -->
+        <header class="mb-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between">
+            <div>
+                <h1
+                    class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                    Clases disponibles
+                </h1>
+                <p class="mt-1 text-sm text-cyan-200">
+                    Reservar tu próxima clase y mantente activo.
+                </p>
+            </div>
+        </header>
+
+        <!-- Filtros -->
+        <div class="mb-8">
+            <app-filtro-generico [filterField]="'categoria'" [isMulti]="false" [data]="clases"
+                placeholder="Filtrar por categoría" (filteredData)="onFilterChange($event)">
+            </app-filtro-generico>
+        </div>
+
+        <!-- Grid de clases -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div *ngFor="let clase of clasesFiltradas" (click)="abrirModal(clase)"
+                class="bg-[#1e293b] bg-gradient-to-br from-slate-900 to-cyan-900 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-4xl space-y-6 border border-cyan-500/20 hover:shadow-cyan-500/30 transition-all cursor-pointer hover:scale-105">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-semibold">{{ clase.nombre }}</h3>
+                    <span class="text-xs px-2 py-1 rounded-full text-white font-semibold"
+                        [style.backgroundColor]="getColor(clase.categoria)">
+                        {{ clase.categoria }}
+                    </span>
+
+                </div>
+
+                <div class="flex items-center gap-2 text-gray-400 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>{{ clase.hora }} · {{ clase.duracion }}</span>
+                </div>
+
+                <div class="flex items-center gap-2 text-gray-400 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span>{{clase.plazasDisponibles}} / {{clase.plazasTotales}}
+                    </span>
+                </div>
+
+
+                <div class="flex items-center gap-2 text-gray-400 mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>Día: {{ clase.dia }}</span>
+                </div>
+
+                <button (click)="abrirModal(clase)"
+                    class="w-full py-2 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 hover:shadow-cyan-500/30 shadow-lg text-white font-medium rounded-md transition-colors">
+                    Reservar
+                </button>
+            </div>
+        </div>
+
+        <!-- Mensaje cuando no hay clases -->
+        <div *ngIf="clasesFiltradas.length === 0"
+            class="flex flex-col items-center justify-center py-20 text-center text-gray-400 animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 mb-4 text-indigo-500" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8c1.657 0 3-1.567 3-3.5S13.657 1 12 1s-3 1.567-3 3.5S10.343 8 12 8zM20.24 10.25a9 9 0 11-16.48 0m8.24 4.25v4" />
+            </svg>
+            <p class="text-lg font-medium">Cargando clases disponibles...</p>
+            <p class="text-sm text-gray-500 mt-1">Por favor espera un momento.</p>
+        </div>
+
+    </main>
+
+    <!-- Modal -->
+    <div *ngIf="modalAbierto" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" (click)="cerrarModal()"></div>
+
+        <!-- Modal Content -->
+        <div
+            class="relative bg-gradient-to-br from-slate-900 to-cyan-950 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-cyan-500/20">
+            <!-- Header del Modal -->
+            <div
+                class="sticky top-0 bg-gradient-to-r from-slate-900/95 to-cyan-950/95 backdrop-blur-sm p-6 border-b border-cyan-500/20">
+                <div class="flex justify-between items-start">
+                    <div class="flex-1">
+                        <h2 class="text-2xl font-bold text-white mb-2">
+                            {{ claseSeleccionada?.nombre }}
+                        </h2>
+                        <div class="flex items-center gap-4 text-sm text-cyan-200">
+                            <div class="flex items-center gap-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>{{ claseSeleccionada?.hora }} ·
+                                    {{ claseSeleccionada?.duracion }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button (click)="cerrarModal()" class="text-gray-400 hover:text-white transition-colors p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenido del Modal -->
+            <div class="p-6 space-y-6">
+
+                <div class="mb-4">
+                    <label for="clienteSelect" class="block text-cyan-300 mb-2 font-semibold">Selecciona un
+                        cliente:</label>
+                    <select id="clienteSelect" [(ngModel)]="usuarioSeleccionadoId"
+                        class="w-full p-2 rounded-md bg-[#1e293b] text-white border border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                        <option [ngValue]="null" disabled>-- Selecciona un cliente --</option>
+                        <option *ngFor="let usuario of usuarios" [ngValue]="usuario.id_usuario">
+                            CI: {{ usuario.cedula }} — {{ usuario.nombre }} {{ usuario.apellido }}
+                        </option>
+                    </select>
+
+                </div>
+
+                <!-- Información del instructor y disponibilidad -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-[#1e293b]/50 rounded-xl p-4 border border-cyan-500/10">
+                        <h3 class="text-sm font-medium text-cyan-400 mb-1">Instructor</h3>
+                        <p class="text-white font-semibold">
+                            {{ claseSeleccionada?.instructor }}
+                        </p>
+                    </div>
+                    <div class="bg-[#1e293b]/50 rounded-xl p-4 border border-cyan-500/10">
+                        <h3 class="text-sm font-medium text-cyan-400 mb-1">
+                            Disponibilidad
+                        </h3>
+                        <p class="text-white font-semibold">
+                            {{ claseSeleccionada?.plazasDisponibles }} plazas disponibles
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="bg-[#1e293b]/50 rounded-xl p-4 border border-cyan-500/10">
+                    <h3 class="text-sm font-medium text-cyan-400 mb-2">Ubicación</h3>
+                    <div class="flex items-center gap-2 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-cyan-400" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                        <span>{{ claseSeleccionada?.ubicacion }}</span>
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="bg-[#1e293b]/50 rounded-xl p-4 border border-cyan-500/10">
+                    <h3 class="text-sm font-medium text-cyan-400 mb-2">Descripción</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        {{ claseSeleccionada?.descripcion }}
+                    </p>
+                </div>
+
+                <!-- Información de fecha y duración -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div
+                        class="bg-gradient-to-r from-cyan-600/10 to-emerald-600/10 rounded-xl p-4 border border-cyan-500/20">
+                        <h3 class="text-sm font-medium text-cyan-400 mb-1">Fecha y Hora</h3>
+                        <p class="text-white font-semibold">
+                            {{ claseSeleccionada?.fechaInicio }}, {{ claseSeleccionada?.dia }}, {{
+                            claseSeleccionada?.hora }}
+                        </p>
+                    </div>
+                    <div
+                        class="bg-gradient-to-r from-cyan-600/10 to-emerald-600/10 rounded-xl p-4 border border-cyan-500/20">
+                        <h3 class="text-sm font-medium text-cyan-400 mb-1">Duración</h3>
+                        <p class="text-white font-semibold">
+                            {{ claseSeleccionada?.duracion }}
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Botón de reservar -->
+                <button (click)="reservarClases(claseSeleccionada!.id)"
+                    class="w-full py-3 px-6 bg-gradient-to-r from-cyan-600 to-emerald-600 hover:from-cyan-500 hover:to-emerald-500 hover:shadow-cyan-500/30 shadow-lg text-white font-semibold rounded-xl transition-all transform hover:scale-105">
+                    Reservar Clase
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="min-h-full p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+
+    <main class="max-w-6xl mx-auto">
+
+        <header class="mb-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between">
+            <div>
+                <h1
+                    class="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+                    Gestión de Instructores
+                </h1>
+                <p class="mt-1 text-sm text-cyan-200">
+                    Administra los instructores de AlekyGyms
+                </p>
+            </div>
+            <div class="flex gap-3 lg:pr-40">
+                <button type="button" (click)="irARegistroInstructor()"
+                    class="h-14 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600 text-white rounded-xl hover:from-cyan-500 hover:to-emerald-500 transition-all flex items-center gap-2 shadow-lg hover:shadow-cyan-500/30 hover:text-slate-900 text-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                        class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2">
+                        <line x1="12" x2="12" y1="5" y2="19" />
+                        <line x1="5" x2="19" y1="12" y2="12" />
+                    </svg>
+                    <span>Registrar nuevo Instructor</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="mb-8 space-y-6">
+
+
+
+            <!-- Filtros -->
+            <div class="w-full">
+                <app-filtro-generico [data]="instructores" filterField="especialidades" filterFieldLabel="Especialidad"
+                    [isMulti]="true" placeholder="Filtrar por especialidades" (filteredData)="aplicarFiltro($event)">
+                </app-filtro-generico>
+            </div>
+
+        </div>
+
+        <!-- Tabla de instructores -->
+        <app-tabla-generica [data]="instructoresFiltrados" [columns]="columnasTabla" [pageSize]="tamanoPagina"
+            [currentPage]="paginaActual" [totalElements]="totalRegistros" (pageChanged)="cambiarPagina($event)">
+        </app-tabla-generica>
+
+    </main>
+</div>

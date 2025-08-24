@@ -1,0 +1,92 @@
+<aside class="flex flex-col w-full h-full bg-gray-900 text-gray-100 dark:bg-gray-950 shadow-lg">
+  <nav class="mt-6 flex-1 overflow-y-auto">
+    <ul class="space-y-2 px-2">
+      @for (item of menuItems; track item.label) {
+
+      <li>
+        <a [routerLink]="item.route" routerLinkActive="bg-cyan-700 text-white"
+          [routerLinkActiveOptions]="{ exact: false }"
+          class="flex items-center px-4 py-2 rounded-lg text-cyan-600 hover:text-cyan-200 transition-colors duration-200 font-medium text-[16px]">
+          <span class="icon mr-3">
+            <!-- Icono del ítem del menú -->
+            @switch (item.icon) { @case ('home') {
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            } @case ('calendar') {
+            <!-- Icono de calendario -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+              <line x1="16" x2="16" y1="2" y2="6"></line>
+              <line x1="8" x2="8" y1="2" y2="6"></line>
+              <line x1="3" x2="21" y1="10" y2="10"></line>
+            </svg>
+            } @case ('sala') {
+            <!-- Icono de sal -->
+            <!-- https://feathericons.dev/?search=codepen&iconset=feather -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+              class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="2">
+              <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+              <line x1="12" x2="12" y1="22" y2="15.5" />
+              <polyline points="22 8.5 12 15.5 2 8.5" />
+              <polyline points="2 15.5 12 8.5 22 15.5" />
+              <line x1="12" x2="12" y1="2" y2="8.5" />
+            </svg>
+            } @case ('users') {
+            <!-- Icono de usuarios -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="5"></circle>
+              <path d="M20 21a8 8 0 1 0-16 0"></path>
+            </svg>
+            } @case ('categoriaEspecialidad') {
+            <!-- Icono de categoria y especialidad -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+              class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round"
+              stroke-linejoin="round" stroke-width="2">
+              <rect height="7" width="7" x="3" y="3" />
+              <rect height="7" width="7" x="14" y="3" />
+              <rect height="7" width="7" x="14" y="14" />
+              <rect height="7" width="7" x="3" y="14" />
+            </svg>
+
+            }
+            
+            @case ('cliente') {
+              <!-- Icono de cliente -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                class="main-grid-item-icon" fill="none" stroke="currentColor" stroke-linecap="round"
+                stroke-linejoin="round" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+  
+  
+            }
+            
+            @case ('settings') {
+            <!-- Icono de configuración -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path
+                d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+              </path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            } }
+          </span>
+
+          <span class="label">{{ item.label }}</span>
+          <!-- Etiqueta del ítem del menú -->
+        </a>
+      </li>
+      }
+    </ul>
+  </nav>
+</aside>

@@ -1,0 +1,13 @@
+ //
+ <app-header
+  class="fixed top-0 left-0 right-0 h-[71px] bg-gray-950 text-gray-100 border-b border-gray-700 shadow-sm px-6 flex items-center z-50">
+</app-header>
+
+ <app-sidebar
+  class="hidden md:block fixed top-[71px] left-0 bottom-0 w-55 bg-gray-100 overflow-y-auto z-40">
+</app-sidebar>
+
+ <main
+  class="fixed top-[71px] left-0 right-0 bottom-0 md:left-55  bg-[#0f172a] overflow-y-auto transition-all duration-200">
+  <router-outlet></router-outlet>
+</main>

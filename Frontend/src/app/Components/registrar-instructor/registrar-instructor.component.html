@@ -1,0 +1,197 @@
+<div class="min-h-full p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+
+  <main class="max-w-6xl mx-auto">
+
+    <header class="mb-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between ">
+      <div>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+          Registrar Nuevo Instructor
+        </h1>
+        <p class="mt-1 text-sm text-cyan-200">
+          Completa el formulario para añadir un nuevo instructor al gimnasio
+        </p>
+      </div>
+    </header>
+
+    <form [formGroup]="formInstructor" (ngSubmit)="onRegistrarInstructor()"
+      class="bg-[#1e293b] bg-gradient-to-br from-slate-900 to-cyan-900 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-4xl mx-auto space-y-6 border border-cyan-500/20">
+      <h2 class="text-xl font-semibold text-cyan-400">
+        Información del Instructor
+      </h2>
+      <p class="text-sm text-cyan-200">
+        Ingrese los datos personales y de contacto del instructor
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="space-y-1">
+          <label for="nombre" class="block text-sm font-medium text-cyan-400">Nombre<span
+              class="text-red-400">*</span></label>
+          <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Carlos" [class.border-red-500]="
+              formInstructor.get('nombre')?.invalid &&
+              formInstructor.get('nombre')?.touched
+            "
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="
+              formInstructor.get('nombre')?.invalid &&
+              formInstructor.get('nombre')?.touched
+            " class="text-xs text-red-500">
+            El nombre es obligatorio
+          </p>
+        </div>
+
+        <div class="space-y-1">
+          <label for="apellido" class="block text-sm font-medium text-cyan-400">Apellido<span
+              class="text-red-400">*</span></label>
+          <input id="apellido" type="text" formControlName="apellido" placeholder="Ej: Méndez" [class.border-red-500]="
+              formInstructor.get('apellido')?.invalid &&
+              formInstructor.get('apellido')?.touched
+            "
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="
+              formInstructor.get('apellido')?.invalid &&
+              formInstructor.get('apellido')?.touched
+            " class="text-xs text-red-500">
+            El apellido es obligatorio
+          </p>
+        </div>
+      </div>
+
+      <div class="space-y-1">
+        <label for="cedula" class="block text-sm font-medium text-cyan-400">Cédula<span
+            class="text-red-400">*</span></label>
+        <input id="cedula" type="text" formControlName="cedula" placeholder="Ej: 12345678" [class.border-red-500]="
+            formInstructor.get('cedula')?.invalid &&
+            formInstructor.get('cedula')?.touched
+          "
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="
+            formInstructor.get('cedula')?.invalid &&
+            formInstructor.get('cedula')?.touched
+          " class="text-xs text-red-500">
+          Ingrese un número de cédula válido
+        </p>
+      </div>
+
+      <div class="space-y-1">
+        <label for="telefono" class="block text-sm font-medium text-cyan-400">Teléfono<span
+            class="text-red-400">*</span></label>
+        <input id="telefono" type="tel" formControlName="telefono" placeholder="Ej: 54852369" [class.border-red-500]="
+            formInstructor.get('telefono')?.invalid &&
+            formInstructor.get('telefono')?.touched
+          "
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="
+            formInstructor.get('telefono')?.invalid &&
+            formInstructor.get('telefono')?.touched
+          " class="text-xs text-red-500">
+          Ingrese un número de teléfono válido
+        </p>
+      </div>
+
+      <div class="space-y-1">
+        <label for="correo" class="block text-sm font-medium text-cyan-400">Correo Electrónico <span
+            class="text-red-400">*</span></label>
+        <input id="correo" type="email" formControlName="correo" placeholder="Ej: carlos@mail.com"
+          [class.border-red-500]="
+            formInstructor.get('correo')?.invalid &&
+            formInstructor.get('correo')?.touched
+          "
+          class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+        <p *ngIf="
+            formInstructor.get('correo')?.invalid &&
+            formInstructor.get('correo')?.touched
+          " class="text-xs text-red-500">
+          Ingrese un correo electrónico válido
+        </p>
+      </div>
+
+      <!-- Especialidades -->
+      <div class="space-y-1">
+        <label for="especialidad" class="block text-sm font-medium text-cyan-400">Especialidad</label>
+        <div class="flex gap-2">
+          <select formControlName="especialidad"
+            class=" w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl text-gray-100">
+            <option [ngValue]="null" disabled>Seleccione una especialidad</option>
+            <option *ngFor="let esp of opcionesEspecialidad()" [ngValue]="esp">
+              {{ esp.nombre }}
+            </option>
+          </select>
+          <button type="button" (click)="agregarEspecialidad()"
+            class="px-4 bg-cyan-600 rounded-xl hover:bg-cyan-500 text-white">Añadir</button>
+        </div>
+        <!-- Lista de especialidades agregadas -->
+        <ul class="mt-2 flex flex-wrap gap-2">
+          <li *ngFor="let esp of nombresEspecialidadesAgregadas"
+            class="bg-cyan-700 px-3 py-1 rounded-xl text-white flex items-center gap-2">
+            {{ esp }}
+            <button type="button" (click)="quitarEspecialidad(obtenerIdEspecialidad(esp))"
+              class="ml-2 text-red-300 hover:text-red-500 font-bold">&times;</button>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- licencias -->
+      <div class="space-y-2">
+        <label for="licencia" class="block text-sm font-medium text-cyan-400">
+          Licencia <span class="text-red-500">*</span>
+        </label>
+
+        <input #fileInput id="licencia" type="file" multiple (change)="onSeleccionarArchivos($event)" class="block w-full text-sm text-cyan-400 file:mr-4 file:py-2 file:px-4
+           file:rounded-md file:border-0
+           file:bg-blue-600 file:text-white
+           hover:file:bg-blue-700
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" />
+
+        <ul class="mt-2 space-y-1 text-sm text-gray-300" *ngIf="archivosSeleccionados?.length">
+          <li *ngFor="let archivo of archivosSeleccionados">
+            📄 {{ archivo.name }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="pt-4 border-t border-gray-600 flex items-center text-gray-300 text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        Los campos marcados con <span class="text-red-400">*</span> son
+        obligatorios
+      </div>
+
+      <div class="flex justify-end gap-3">
+        <button type="button" (click)="irAListaInstructores()" title="Volver a la lista de instructores"
+          class="text-lg h-12 px-4 border border-cyan-500/30 hover:bg-cyan-900/40  rounded-xl  transition-all text-cyan-300 hover:text-white ">
+          <svg viewBox="0 0 32 32" version="1.1" width="25" height="25" fill="none" stroke="currentColor"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <g id="icomoon-ignore"> </g>
+              <path
+                d="M14.389 7.956v4.374l1.056 0.010c7.335 0.071 11.466 3.333 12.543 9.944-4.029-4.661-8.675-4.663-12.532-4.664h-1.067v4.337l-9.884-7.001 9.884-7zM15.456 5.893l-12.795 9.063 12.795 9.063v-5.332c5.121 0.002 9.869 0.26 13.884 7.42 0-4.547-0.751-14.706-13.884-14.833v-5.381z"
+                fill="#ffffff"> </path>
+            </g>
+          </svg>
+        </button>
+        <button type="button" (click)="limpiarFormulario()" title="Cancelar y limpiar formulario"
+          class=" h-12 px-4 border border-cyan-500/30 rounded-xl hover:bg-cyan-900/40 transition-all text-cyan-300 hover:text-white hover:border-cyan-400 shadow-lg hover:shadow-cyan-500/20">
+          Cancelar
+        </button>
+        <button type="button" (click)="onRegistrarInstructor()" title="Registrar instructor" class="h-12 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600  hover:from-cyan-500  hover:to-emerald-500 hover:shadow-cyan-500/30 hover:text-slate-900 shadow-lg text-white rounded-xl
+          transition-all flex items-center gap-2    ">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Registrar Instructor</span>
+        </button>
+      </div>
+    </form>
+  </main>

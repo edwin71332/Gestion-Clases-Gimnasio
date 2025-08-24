@@ -1,0 +1,27 @@
+<!-- Fondo difuminado -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4" (click)="cerrar()">
+
+
+  <div class="absolute inset-0 bg-black/70 backdrop-blur-md" (click)="$event.stopPropagation()"></div>
+
+  <!-- Contenedor del modal -->
+  <div class=" relative bg-gradient-to-br from-slate-900 to-cyan-950 rounded-2xl shadow-2xl border border-cyan-500/20
+    max-w-full sm:max-w-lg md:max-w-xl lg:max-w-2xl w-full max-h-[90vh] overflow-y-auto text-white animate-fade-in"
+    (click)="$event.stopPropagation()">
+    <!-- Header con botón de cierre -->
+    <div class="flex justify-end p-4 border-b border-white/10">
+      <button (click)="cerrar()"
+        class=" close-button p-2 rounded-full hover:bg-white/10 transition-colors duration-200 group">
+        <svg class="w-5 h-5 text-white/70 group-hover:text-red-400" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Contenido del modal -->
+    <div class="p-6 space-y-6">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

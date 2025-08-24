@@ -1,0 +1,227 @@
+<div class="min-h-full p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+
+  <!-- Contenido principal -->
+  <main class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <header class="mb-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between ">
+      <div>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+          Crear Clase
+        </h1>
+        <p class="mt-1 text-sm text-cyan-200">
+          Para añadir una nueva clase complete el formulario
+        </p>
+      </div>
+    </header>
+
+    <!-- Formulario -->
+    <form [formGroup]="form" (ngSubmit)="enviar()"
+      class="bg-gradient-to-br from-slate-900 to-cyan-900 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-4xl mx-auto space-y-6 border border-cyan-500/20">
+      <!-- Sección: Información Básica -->
+      <div class="space-y-4">
+        <div>
+          <h2 class="text-xl font-semibold text-cyan-400">
+            Información Básica
+          </h2>
+          <p class="text-sm text-cyan-200">Detalles generales de la clase</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Nombre -->
+          <div class="space-y-1">
+            <label for="nombre" class="block text-sm font-medium text-cyan-400">
+              Nombre de la clase <span class="text-red-400">*</span>
+            </label>
+            <input type="text" id="nombre" formControlName="nombre" placeholder="Ej: Yoga flow"
+              [class.border-red-500]="form.get('nombre')?.invalid && form.get('nombre')?.touched"
+              class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+            <p *ngIf="form.get('nombre')?.invalid && form.get('nombre')?.touched" class="text-xs text-red-500">
+              El nombre es obligatorio
+            </p>
+          </div>
+
+          <!-- Capacidad -->
+          <div class="space-y-1">
+            <label for="capacidad" class="block text-sm font-medium text-cyan-400">
+              Capacidad (alumnos) <span class="text-red-400">*</span>
+              <span *ngIf="capacidadSalaSeleccionada > 0" class="text-cyan-200/80 text-xs font-normal">
+                (Máx: {{ capacidadSalaSeleccionada }})
+              </span>
+            </label>
+
+            <input type="number" id="capacidad" formControlName="capacidad" placeholder="Ej: 20" [attr.min]="1"
+              [attr.max]="capacidadSalaSeleccionada"
+              [class.border-red-500]="form.get('capacidad')?.invalid && form.get('capacidad')?.touched"
+              class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50"
+              [disabled]="!form.get('id_sala')?.value" />
+
+            <div *ngIf="form.get('capacidad')?.invalid && form.get('capacidad')?.touched">
+              <p *ngIf="form.get('capacidad')?.errors?.['required']" class="text-xs text-red-500">
+                La capacidad es obligatoria
+              </p>
+              <p *ngIf="form.get('capacidad')?.errors?.['min']" class="text-xs text-red-500">
+                La capacidad mínima es 1 alumno
+              </p>
+              <p *ngIf="form.get('capacidad')?.errors?.['max']" class="text-xs text-red-500">
+                La capacidad máxima permitida es {{ capacidadSalaSeleccionada }} alumnos
+              </p>
+            </div>
+          </div>
+
+          <!-- Categoría -->
+          <div class="space-y-1 relative">
+            <label for="categoria" class="block text-sm font-medium text-cyan-300">
+              Categoría <span class="text-red-400">*</span>
+            </label>
+            <select id="categoria" formControlName="id_categoria"
+              [class.border-red-500]="form.get('id_categoria')?.invalid && form.get('id_categoria')?.touched"
+              class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl appearance-none focus:outline-none focus:border-cyan-400 focus:bg-gray-700 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50">
+              <option value="" disabled selected class="text-cyan-200/50">
+                Seleccione una categoría
+              </option>
+              <ng-container *ngFor="let categoria of categorias">
+                <option [ngValue]="categoria.id_categoria">
+                  {{ categoria.nombre }}
+                </option>
+              </ng-container>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-cyan-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p *ngIf="form.get('id_categoria')?.invalid && form.get('id_categoria')?.touched"
+              class="text-xs text-red-400">
+              Seleccione una categoría
+            </p>
+          </div>
+
+          <!-- Sala-->
+          <div class="space-y-1 relative">
+            <label for="sala" class="block text-sm font-medium text-cyan-400">
+              Sala <span class="text-red-400">*</span>
+            </label>
+            <select id="sala" formControlName="id_sala" [ngClass]="{  
+                'text-cyan-200/50': form.get('id_sala')?.value === '',
+                'text-gray-100': form.get('id_sala')?.value !== '',
+                'border-red-500': form.get('id_sala')?.invalid && form.get('id_sala')?.touched
+              }"
+              class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl appearance-none focus:outline-none focus:border-cyan-400 focus:bg-gray-700 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50">
+              <option value="" disabled>Seleccione una sala</option>
+              <ng-container *ngIf="form.get('id_categoria')?.value; else noCategoria">
+                <option *ngFor="let sala of salasFiltradas" [ngValue]="sala.id_sala">
+                  {{ sala.nombre + " (capacidad: " + sala.capacidad + ")" }}
+                </option>
+                <option *ngIf="salasFiltradas.length === 0" disabled class="text-red-400">
+                  No hay salas disponibles para esta categoría
+                </option>
+              </ng-container>
+              <ng-template #noCategoria>
+                <option disabled class="text-red-400">
+                  Seleccione una categoría primero
+                </option>
+              </ng-template>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-cyan-400">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </div>
+            <p *ngIf="form.get('id_sala')?.invalid && form.get('id_sala')?.touched" class="text-xs text-red-500">
+              Seleccione una sala
+            </p>
+          </div>
+
+          <!-- Instructor -->
+          <div class="space-y-1 relative">
+            <label for="instructor" class="block text-sm font-medium text-gray-300">
+              Instructor <span class="text-red-400">*</span>
+            </label>
+            <select id="instructor" formControlName="id_instructor" [ngClass]="{
+      'text-cyan-200/50': form.get('id_instructor')?.value === null,
+      'text-gray-100': form.get('id_instructor')?.value !== null
+    }" [class.border-red-500]="form.get('id_instructor')?.invalid && form.get('id_instructor')?.touched"
+              class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl appearance-none focus:outline-none focus:border-cyan-400 focus:bg-gray-700 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50">
+              <option [ngValue]="null" disabled>Seleccione un instructor</option>
+              <ng-container *ngFor="let instructor of instructores">
+                <option [ngValue]="instructor.id">
+                  {{ instructor.nombre }} {{ instructor.apellido }}
+                </option>
+              </ng-container>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-cyan-400">
+
+            </div>
+            <p *ngIf="form.get('id_instructor')?.invalid && form.get('id_instructor')?.touched"
+              class="text-xs text-red-500">
+              Seleccione un instructor
+            </p>
+          </div>
+
+
+          <!-- Descripción -->
+          <div class="md:col-span-2 space-y-1">
+            <label for="descripcion" class="block text-sm font-medium text-cyan-400">
+              Descripción <span class="text-red-400">*</span>
+            </label>
+            <textarea id="descripcion" formControlName="descripcion" rows="4"
+              placeholder="Describe en qué consiste la clase" [ngClass]="{
+      'text-cyan-200/50': form.get('descripcion')?.value === null,
+      'text-gray-100': form.get('descripcion')?.value !== null
+    }" [class.border-red-500]="form.get('descripcion')?.invalid && form.get('descripcion')?.touched"
+              class="w-full px-3 py-2 bg-slate-950/50 border border-cyan-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 resize-none placeholder-cyan-200/50"></textarea>
+            <p *ngIf="form.get('descripcion')?.invalid && form.get('descripcion')?.touched"
+              class="text-xs text-red-500">
+              Escriba una descripcion </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer del formulario -->
+      <div class="pt-4 border-t border-gray-600 flex items-center text-gray-300 text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        Los campos marcados con <span class="text-red-400">*</span> son obligatorios
+      </div>
+
+      <!-- botones -->
+      <div class="flex justify-end gap-3">
+        <button type="button" (click)="retroceder()" title="retrodece a la lista de clases"
+          class="text-lg h-12 px-4 border border-cyan-500/30 hover:bg-cyan-900/40  rounded-xl  transition-all text-cyan-300 hover:text-white ">
+          <!-- ...icono... -->
+          <svg viewBox="0 0 32 32" version="1.1" width="25" height="25" fill="none" stroke="currentColor"
+            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+              <g id="icomoon-ignore"> </g>
+              <path
+                d="M14.389 7.956v4.374l1.056 0.010c7.335 0.071 11.466 3.333 12.543 9.944-4.029-4.661-8.675-4.663-12.532-4.664h-1.067v4.337l-9.884-7.001 9.884-7zM15.456 5.893l-12.795 9.063 12.795 9.063v-5.332c5.121 0.002 9.869 0.26 13.884 7.42 0-4.547-0.751-14.706-13.884-14.833v-5.381z"
+                fill="#ffffff"> </path>
+            </g>
+          </svg>
+        </button>
+        <button type="button" (click)="cancelar()" title="Cancela y borra el formulario"
+          class=" h-12 px-4 border border-cyan-500/30 rounded-xl hover:bg-cyan-900/40 transition-all text-cyan-300 hover:text-white hover:border-cyan-400 shadow-lg hover:shadow-cyan-500/20">
+          Cancelar
+        </button>
+        <button type="submit" title="Crear nueva clase" class="h-12 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600  hover:from-cyan-500  hover:to-emerald-500 hover:shadow-cyan-500/30 hover:text-slate-900 shadow-lg text-white rounded-xl
+          transition-all flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+            <polyline points="17 21 17 13 7 13 7 21" />
+            <polyline points="7 3 7 8 15 8" />
+          </svg>
+          <span>Crear Clase</span>
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

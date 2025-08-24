@@ -1,0 +1,163 @@
+<div class="  h-full p-6 text-white bg-gradient-to-br from-slate-900 to-cyan-950">
+  <!-- Contenido principal -->
+
+  <main class="max-w-6xl mx-auto">
+
+    <!-- header -->
+    <header class="mb-6 flex flex-col-reverse md:flex-row items-start md:items-center justify-between ">
+      <div>
+        <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">
+          Registrar una nueva sala
+        </h1>
+        <p class="mt-1 text-sm text-cyan-200">
+          Para crear una nueva sala complete el formulario
+        </p>
+      </div>
+    </header>
+
+    <form [formGroup]="salaForm" (ngSubmit)="onSubmit()"
+      class="bg-gradient-to-br from-slate-900 to-cyan-900 backdrop-blur-sm rounded-2xl shadow-xl p-8 max-w-4xl mx-auto space-y-6 border border-cyan-500/20">
+      <h2 class="text-xl font-semibold text-cyan-400">
+        Información de la sala
+      </h2>
+      <p class="text-sm text-cyan-200">
+        Ingrese los datos solicitados
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Nombre -->
+        <div class="space-y-1">
+          <label for="nombre" class="block text-sm font-medium text-cyan-400">Nombre<span
+              class="text-red-400">*</span></label>
+          <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Sala Cardio" [class.border-red-500]="
+          salaForm.get('nombre')?.invalid &&
+          salaForm.get('nombre')?.touched
+        " class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="
+          salaForm.get('nombre')?.invalid &&
+          salaForm.get('nombre')?.touched
+        " class="text-xs text-red-500">
+            El nombre es obligatorio
+          </p>
+        </div>
+
+
+
+        <!-- Capacidad -->
+        <div class="space-y-1">
+          <label for="capacidad" class="block text-sm font-medium text-cyan-400">
+            Capacidad<span class="text-red-400">*</span>
+          </label>
+          <input type="number" id="capacidad" formControlName="capacidad" placeholder="Ej: 20" [class.border-red-500]="
+            salaForm.get('capacidad')?.invalid &&
+            salaForm.get('capacidad')?.touched
+          "
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50" />
+          <p *ngIf="
+            salaForm.get('capacidad')?.invalid &&
+            salaForm.get('capacidad')?.touched
+          " class="text-xs text-red-500">
+            La capacidad es obligatoria
+          </p>
+        </div>
+
+        <!-- Categoría -->
+        <div class="space-y-1 relative">
+          <label for="categoria" class="block text-sm font-medium text-cyan-300">
+            Categoría <span class="text-red-400">*</span>
+          </label>
+          <select id="categoria" formControlName="id_categoria" [class.border-red-500]="
+            salaForm.get('id_categoria')?.invalid &&
+            salaForm.get('id_categoria')?.touched
+          "
+            class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl appearance-none focus:outline-none focus:border-cyan-400 focus:bg-gray-700 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50">
+            <option value="" disabled selected class="text-cyan-200/50">
+              Seleccione una categoría
+            </option>
+            <ng-container *ngFor="let categoria of categorias">
+              <option [ngValue]="categoria.id_categoria">
+                {{ categoria.nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-cyan-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </div>
+          <p *ngIf="
+            salaForm.get('id_categoria')?.invalid &&
+            salaForm.get('id_categoria')?.touched
+          " class="text-xs text-red-400">
+            Seleccione una categoría
+          </p>
+        </div>
+
+        <!-- Estado de la sala -->
+        <div class="space-y-1">
+          <label for="estadoSala" class="block text-sm font-medium text-cyan-400">Estado de la sala<span
+              class="text-red-400">*</span></label>
+          <select id="estadoSala" formControlName="estado_sala" [class.border-red-500]="
+          salaForm.get('estadoSala')?.invalid &&
+          salaForm.get('estadoSala')?.touched
+        " class="w-full h-12 px-3 bg-slate-950/50 border border-cyan-500/30 rounded-xl focus:outline-none focus:border-cyan-400 focus:bg-gray-700 transition duration-150 ease-in-out text-gray-100 placeholder-cyan-200/50">
+            <option value="" disabled selected>Seleccione un estado</option>
+            <option value="Activo">Disponible</option>
+            <option value="Inactivo">Mantenimiento</option>
+            <option value="Inactivo">Cerrada</option>
+          </select>
+
+          <p *ngIf="
+          salaForm.get('estadoSala')?.invalid &&
+          salaForm.get('estadoSala')?.touched
+        " class="text-xs text-red-500">
+            El estado de la sala es obligatorio
+          </p>
+        </div>
+
+        <!-- Descripción -->
+        <div class="md:col-span-2 space-y-1">
+          <label for="descripcion" class="block text-sm font-medium text-cyan-400">
+            Descripción
+          </label>
+          <textarea id="descripcion" formControlName="descripcion" rows="4" placeholder="Breve descripcion de la sala"
+            class="w-full px-3 py-2 bg-slate-950/50 border border-cyan-500/30 rounded-lg focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/50 transition duration-150 ease-in-out text-gray-100 resize-none placeholder-cyan-200/50"></textarea>
+        </div>
+
+      </div>
+
+
+      <!-- Footer  -->
+      <div class="pt-4 border-t border-gray-600 flex items-center text-gray-300 text-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        Los campos marcados con <span class="text-red-400">*</span> son
+        obligatorios
+      </div>
+
+      <!-- botones -->
+      <div class="flex justify-end gap-3  ">
+        <button type="button" (click)="cancelar()" title="Cancelar"
+          class="h-12 px-4 border border-cyan-500/30 rounded-xl hover:bg-cyan-900/40 transition-all text-cyan-300 hover:text-white hover:border-cyan-400 shadow-lg hover:shadow-cyan-500/20">
+          Cancelar
+        </button>
+        <button type="button" (click)="onSubmit()" title="Crear sala"
+          class="h-12 px-4 bg-gradient-to-r from-cyan-600 to-emerald-600 text-white rounded-xl hover:from-cyan-500 hover:to-emerald-500 transition-all flex items-center gap-2 shadow-lg hover:shadow-cyan-500/30">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor"
+            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span>Crear Sala</span>
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

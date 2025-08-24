@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+table,
+th,
+td {
+  border: none;
+}
+
+/* e */
+button:hover .icon  path,
+button:hover .icon polygon {
+  stroke: #000000 !important;
+  /* azul Tailwind: blue-500 */
+}
+
+ 

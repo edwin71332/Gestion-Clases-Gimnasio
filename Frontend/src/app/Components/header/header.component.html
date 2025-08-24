@@ -1,0 +1,33 @@
+<header
+  class="fixed top-0 left-0 right-0  h-[71px] bg-gray-950 text-gray-100 border-b border-gray-700 shadow-sm px-6 flex items-center z-50">
+  <div class="flex items-center justify-between w-full">
+    <!-- Logo y Rol -->
+    <div class="flex items-center space-x-4">
+      <a class="flex items-center space-x-2" routerLink="/">
+        <span class="logo-icon">
+          <img src="AleskyGym.png" alt="Logo" class="w-10 h-10 rounded-full border border-gray-600" />
+        </span>
+        <span class="text-2xl font-semibold tracking-wide text-cyan-400">¡AleskyGym!</span>
+      </a>
+
+    </div>
+
+    <!-- Menú de navegación (oculto en móvil) -->
+    <nav class="hidden md:flex space-x-6">
+      @for (item of menuItems; track item.label) {
+      <a class="text-cyan-600 hover:text-white font-medium text-[18px] transition-colors duration-200"
+        [routerLink]="item.route" routerLinkActive="text-white font-semibold border-b border-gray-300"
+        [routerLinkActiveOptions]="{ exact: false }">
+        {{ item.label }}
+      </a>
+      }
+    </nav>
+
+    <!-- Acciones -->
+    <div class="flex items-center space-x-3">
+
+
+
+    </div>
+  </div>
+</header>

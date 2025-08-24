@@ -1,0 +1,41 @@
+ <div class="flex flex-col lg:flex-row gap-6 lg:items-start">
+  
+  <!-- Iteramos por cada grupo de filtro -->
+  <ng-container *ngFor="let f of (filters.length ? filters : [{ field: filterField, label: filterFieldLabel || placeholder, isMulti: isMulti }])">
+    
+     <div class="space-y-2">
+      <!-- Label del grupo -->
+      <h4 class="text-sm font-semibold text-cyan-300 uppercase">{{ f.label }}</h4>
+      
+      <!-- Contenedor de " píldoras "" para este grupo -->
+      <div class="inline-flex flex-wrap gap-2 p-1 bg-[#1e293b] rounded-lg">
+        
+        <!--  "Todos" para cada grupo -->
+        <button
+          [ngClass]="{
+            'bg-[#0f172a] text-white border-cyan-400/30': isFieldClear(f.field), 
+            'text-gray-400 hover:text-white hover:bg-slate-700/50': !isFieldClear(f.field)
+          }"
+          class="px-4 py-2 rounded-md transition-colors text-sm border border-transparent whitespace-nowrap"
+          (click)="clearField(f.field)">
+          Todos
+        </button>
+        
+        <!--  opciones -->
+        <button
+          *ngFor="let opt of uniqueOptions[f.field]"
+          [ngClass]="{
+            'bg-[#0f172a] text-white border-cyan-400/30': selectedOptions[f.field].includes(opt), 
+            'text-gray-400 hover:text-white hover:bg-slate-700/50': !selectedOptions[f.field].includes(opt)
+          }"
+          class="px-4 py-2 rounded-md transition-colors text-sm border border-transparent whitespace-nowrap"
+          (click)="onOptionToggle(f.field, opt)">
+          {{ opt }}
+        </button>
+        
+      </div>
+    </div>
+    
+  </ng-container>
+  
+</div>
